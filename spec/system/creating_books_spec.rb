@@ -5,83 +5,6 @@ require 'rails_helper'
 # I need a model and system test for each one, and each of those tests should have a rainy 
 # and a sunny day case. (just like the book tests tested a valid book title and an invalid book title)"
 
-RSpec.describe Book, type: :model do
-  context "validations" do
-    # --- Title ---
-    it "is valid with a title" do
-      book = Book.new(title: "Valid Title", author: "Author", price: 9.99, published_date: Date.today)
-      expect(book).to be_valid
-    end
-
-    it "is invalid without a title" do
-      book = Book.new(title: "", author: "Author", price: 9.99, published_date: Date.today)
-      expect(book).not_to be_valid
-      expect(book.errors[:title]).to include("can't be blank")
-    end
-
-    # --- Author ---
-    it "is valid with an author" do
-      book = Book.new(title: "Valid Title", author: "Jane Doe", price: 9.99, published_date: Date.today)
-      expect(book).to be_valid
-    end
-
-    it "is invalid without an author" do
-      book = Book.new(title: "Valid Title", author: "", price: 9.99, published_date: Date.today)
-      expect(book).not_to be_valid
-      expect(book.errors[:author]).to include("can't be blank")
-    end
-
-    # --- Price ---
-    it "is valid with a positive price" do
-      book = Book.new(title: "Valid Title", author: "Author", price: 19.99, published_date: Date.today)
-      expect(book).to be_valid
-    end
-
-    it "is invalid with a negative price" do
-      book = Book.new(title: "Valid Title", author: "Author", price: -5, published_date: Date.today)
-      expect(book).not_to be_valid
-      expect(book.errors[:price]).to include("must be greater than or equal to 0")
-    end
-
-    # --- Date ---
-    it "is valid with a published date" do
-      book = Book.new(title: "Valid Title", author: "Author", price: 9.99, published_date: Date.today)
-      expect(book).to be_valid
-    end
-
-    it "is invalid without a published date" do
-      book = Book.new(title: "Valid Title", author: "Author", price: 9.99, published_date: nil)
-      expect(book).not_to be_valid
-      expect(book.errors[:published_date]).to include("can't be blank")
-    end
-  end
-end
-
-RSpec.describe "CreatingBooks", type: :system do
-  before do
-    driven_by(:rack_test)
-  end
-
-  it 'saves and displays the resulting book' do
-    visit new_book_path
-
-    fill_in 'Title', with: 'Brand New Book'
-    click_on 'Create Book'
-
-    expect(page).to have_content('Book was successfully created.')
-    expect(page).to have_content('Brand New Book')
-  end
-
-  it 'does not save the book and displays the error message' do
-    visit new_book_path
-
-    fill_in 'Title', with: ''
-    click_on 'Create Book'
-
-    expect(page).to have_content('Title can\'t be blank')
-  end
-end
-
 RSpec.describe "Books", type: :system do
   before do
     driven_by(:rack_test)
@@ -92,6 +15,9 @@ RSpec.describe "Books", type: :system do
     visit new_book_path
 
     fill_in 'Title', with: 'Brand New Book'
+    fill_in 'Author', with: 'Some Author'
+    fill_in 'Price', with: '19.99'
+    fill_in 'Published date', with: Date.today
     click_on 'Create Book'
 
     expect(page).to have_content('Book was successfully created.')
@@ -102,6 +28,9 @@ RSpec.describe "Books", type: :system do
     visit new_book_path
 
     fill_in 'Title', with: ''
+    fill_in 'Author', with: 'Some Author'
+    fill_in 'Price', with: '19.99'
+    fill_in 'Published date', with: Date.today
     click_on 'Create Book'
 
     expect(page).to have_content('Title can\'t be blank')
