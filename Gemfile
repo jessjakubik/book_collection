@@ -9,12 +9,14 @@ gem 'rails', '~> 8.0.2.1', '>= 8.0.2.1'
 gem 'pg', '~> 1.1'
 # Use Puma as the app server
 gem 'puma', '~> 6.0'
-# Use SCSS for stylesheets
-gem 'sass-rails', '>= 6'
-# Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
-gem 'webpacker', '~> 5.0'
-# Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
-gem 'turbolinks', '~> 5'
+
+# replaced sass-rails, webpacker, and turbolinks, with the following gems
+gem 'jbuilder', '~>2.7'
+gem 'jsbundling-rails'
+gem 'turbo-rails'
+gem 'stimulus-rails'
+gem 'cssbundling-rails'
+
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.7'
 # Use Redis adapter to run Action Cable in production
